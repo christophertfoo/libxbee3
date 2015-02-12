@@ -268,9 +268,17 @@ int xsys_serialRead(struct xbee_serialInfo *info, int len, unsigned char *dest) 
 int xsys_serialWrite(struct xbee_serialInfo *info, int len, unsigned char *src) {
 	int pos;
 	int ret;
+	int i;
 	
 	if (!info || !src) return XBEE_EMISSINGPARAM;
 	if (info->dev.fd == -1 || !info->dev.f || len == 0) return XBEE_EINVAL;
+	
+	printf("Writing: ");
+	for(i = 0; i < len; i++)
+	{
+	  printf("%02x ", src[i]);
+	}
+	printf("\n");
 	
 	for (pos = 0; pos < len; pos += ret) {
 		if ((ret = fwrite(&(src[pos]), 1, len - pos, info->dev.f)) > 0) continue;
