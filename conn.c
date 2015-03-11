@@ -935,7 +935,8 @@ xbee_err xbee_conCallbackHandler(struct xbee *xbee, int *restart, void *arg) {
 			}
 		}
 	}
-	
+    xbee_log(1, "connection @ %p restarting callback thread...", con);
+
 	*restart = 0;
 	return XBEE_ENONE;
 }

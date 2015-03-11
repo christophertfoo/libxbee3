@@ -171,7 +171,6 @@ xbee_err xbee_xbeeRxIo(struct xbee *xbee, void *arg, struct xbee_tbuf **buf) {
 		if (clock_gettime(CLOCK_REALTIME, &iBuf->ts) != 0) {
 			memset(&iBuf->ts, 0, sizeof(iBuf->ts));
 		}
-		ESCAPER_PRINTF("======= packet start @ %ld.%09d =======\n", iBuf->ts.tv_sec, iBuf->ts.tv_nsec);
 		
 		/* get the length (2 bytes) */
 		if ((ret = escaped_read(data, 2, iBuf->data, 1, &xbee->die)) != XBEE_ENONE) return ret;
@@ -218,6 +217,11 @@ xbee_err xbee_xbeeRxIo(struct xbee *xbee, void *arg, struct xbee_tbuf **buf) {
 	
 	*buf = iBuf;
 	
+	struct timespec now;
+	clock_gettime(CLOCK_REALTIME, &now);
+    xbee_log(10, "======= packet start @ %ld.%09d & packet end @ %ld.%09d=======\n", iBuf->ts.tv_sec, iBuf->ts.tv_nsec, now.tv_sec, now.tv_nsec);
+
+
 	return XBEE_ENONE;
 }
 
