@@ -910,6 +910,7 @@ xbee_err xbee_conCallbackHandler(struct xbee *xbee, int *restart, void *arg) {
 		callback = con->callback;
 		if (!callback) break;
 		if ((ret = xbee_ll_ext_head(con->pktList, (void**)&pkt)) == XBEE_ERANGE) {
+		    xbee_log(1, "connection @ %p callback thread waiting for packet...", con);
 			struct timespec to;
 			clock_gettime(CLOCK_REALTIME, &to);
 			to.tv_sec += 5; /* 5 second timeout */
@@ -917,6 +918,7 @@ xbee_err xbee_conCallbackHandler(struct xbee *xbee, int *restart, void *arg) {
 				if (errno == ETIMEDOUT) break;
 				return XBEE_ESEMAPHORE;
 			}
+            xbee_log(1, "connection @ %p callback thread got packet after waiting...", con);
 			continue;
 		} else if (ret != XBEE_ENONE) {
 			return ret;
