@@ -348,7 +348,7 @@ EXPORT xbee_err xbee_logColorGet(struct xbee *xbee, int *enabled) {
 
 /* ######################################################################### */
 
-xbee_err _xbee_logWrite(struct xbee_log *log, const char *file, int line, const char *function, struct xbee *xbee, int minLevel, char *preStr, char *format, va_list ap) {
+xbee_err _xbee_logWrite(struct xbee_log *log, const char *file, int line, const char *function, struct xbee *xbee, int minLevel, char *preStr, const char *format, va_list ap) {
 	char tBuf[XBEE_LOG_MAXLEN];
 	int len;
 	const char * const truncStr = XBEE_LOG_TRUNC_STR;
@@ -400,7 +400,7 @@ xbee_err _xbee_logWrite(struct xbee_log *log, const char *file, int line, const 
 }
 
 
-EXPORT xbee_err _xbee_logDev(const char *file, int line, const char *function, struct xbee *xbee, int minLevel, char *format, ...) {
+EXPORT xbee_err _xbee_logDev(const char *file, int line, const char *function, struct xbee *xbee, int minLevel, const char *format, ...) {
 	va_list ap;
 	xbee_err ret;
 
